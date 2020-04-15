@@ -2252,6 +2252,15 @@ static void writeFencedCodeBlock(GrowBuf &out,const char *data,const char *lng,
 {
   QCString lang = lng;
   if (!lang.isEmpty() && lang.at(0)=='.') lang=lang.mid(1);
+  if (lang == "plantuml")
+  {
+    static QCString jarPath = Config_getString(PLANTUML_JAR_PATH);
+    if (!jarPath.isEmpty())
+    {
+      out.addStr(data+blockStart,blockEnd-blockStart);
+      return;
+    }
+  }
   out.addStr("@code");
   if (!lang.isEmpty())
   {
